@@ -90,20 +90,18 @@ export function OnboardingQuestions({ onComplete }: { onComplete: () => void }) 
     const handleNext = async () => {
         let stepValid = false;
 
-        // validation per step
         if (step === 0) stepValid = await trigger('name');
         if (step === 1) stepValid = await trigger('level');
         if (step === 2) stepValid = await trigger('department');
         if (step === 3) stepValid = await trigger('dob');
         if (step === 4) stepValid = await trigger('referral');
-        if (step === 5) stepValid = true; // Profile picture is optional
+        if (step === 5) stepValid = true;
 
         if (stepValid) {
             if (step < totalSteps - 1) {
                 setDirection(1);
                 setStep(step + 1);
             } else {
-                // final submit
                 completeOnboarding();
             }
         }
@@ -117,26 +115,22 @@ export function OnboardingQuestions({ onComplete }: { onComplete: () => void }) 
     };
 
     const completeOnboarding = () => {
-        // save to local storage
         localStorage.setItem('onboarding_complete', 'true');
         localStorage.setItem('user_data', JSON.stringify(formData));
 
-        // celebration
         confetti({
             particleCount: 150,
             spread: 70,
             origin: { y: 0.6 },
-            colors: ['#2563EB', '#60A5FA', '#93C5FD', '#FFFFFF'] // Blue shades
+            colors: ['#2563EB', '#60A5FA', '#93C5FD', '#FFFFFF']
         });
 
-        // show success screen briefly then redirect
-        setStep(totalSteps); // Move to success step
+        setStep(totalSteps);
         setTimeout(() => {
             onComplete();
         }, 2500);
     };
 
-    // variants for slide animation
     const variants = {
         enter: (direction: number) => ({
             x: direction > 0 ? 50 : -50,
@@ -174,7 +168,6 @@ export function OnboardingQuestions({ onComplete }: { onComplete: () => void }) 
 
     return (
         <div className="h-screen max-h-screen bg-white flex flex-col w-full max-w-lg mx-auto overflow-hidden">
-            {/* Progress Bar */}
             <div className="pt-6 px-6 mb-6">
                 <div className="flex justify-between items-center text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
                     <span>Step {step + 1} of {totalSteps}</span>
@@ -189,7 +182,6 @@ export function OnboardingQuestions({ onComplete }: { onComplete: () => void }) 
                 </div>
             </div>
 
-            {/* Content Area */}
             <div className="flex-1 px-6 relative overflow-y-auto">
                 <AnimatePresence custom={direction} mode="wait">
                     <motion.div
@@ -202,7 +194,6 @@ export function OnboardingQuestions({ onComplete }: { onComplete: () => void }) 
                         transition={{ duration: 0.3 }}
                         className="flex-1 flex flex-col"
                     >
-                        {/* Step 0: Name */}
                         {step === 0 && (
                             <div className="flex flex-col gap-6">
                                 <div className="flex items-center gap-3">
@@ -220,7 +211,6 @@ export function OnboardingQuestions({ onComplete }: { onComplete: () => void }) 
                             </div>
                         )}
 
-                        {/* Step 1: Level */}
                         {step === 1 && (
                             <div className="flex flex-col gap-6">
                                 <div className="flex items-center gap-3">
@@ -249,7 +239,6 @@ export function OnboardingQuestions({ onComplete }: { onComplete: () => void }) 
                             </div>
                         )}
 
-                        {/* Step 2: Department */}
                         {step === 2 && (
                             <div className="flex flex-col gap-6">
                                 <div className="flex items-center gap-3">
@@ -278,7 +267,6 @@ export function OnboardingQuestions({ onComplete }: { onComplete: () => void }) 
                             </div>
                         )}
 
-                        {/* Step 3: Birthday */}
                         {step === 3 && (
                             <div className="flex flex-col gap-6">
                                 <div className="flex items-center gap-3">
@@ -297,7 +285,6 @@ export function OnboardingQuestions({ onComplete }: { onComplete: () => void }) 
                             </div>
                         )}
 
-                        {/* Step 4: Referral */}
                         {step === 4 && (
                             <div className="flex flex-col gap-6">
                                 <div className="flex items-center gap-3">
@@ -326,7 +313,6 @@ export function OnboardingQuestions({ onComplete }: { onComplete: () => void }) 
                             </div>
                         )}
 
-                        {/* Step 5: Profile Picture */}
                         {step === 5 && (
                             <div className="flex flex-col gap-6">
                                 <div className="flex items-center gap-3">
@@ -335,7 +321,6 @@ export function OnboardingQuestions({ onComplete }: { onComplete: () => void }) 
                                 </div>
                                 <p className="text-sm text-gray-500 -mt-4">Optional, but it's nice to put a face to the name!</p>
                                 <div className="flex flex-col items-center gap-6">
-                                    {/* Image Preview */}
                                     <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-lg">
                                         {profileImagePreview ? (
                                             <img src={profileImagePreview} alt="Profile preview" className="w-full h-full object-cover" />
@@ -344,7 +329,6 @@ export function OnboardingQuestions({ onComplete }: { onComplete: () => void }) 
                                         )}
                                     </div>
 
-                                    {/* Upload Button */}
                                     <label className="cursor-pointer">
                                         <input
                                             type="file"
@@ -387,7 +371,6 @@ export function OnboardingQuestions({ onComplete }: { onComplete: () => void }) 
                 </AnimatePresence>
             </div>
 
-            {/* Footer Navigation */}
             <div className="p-4 bg-white">
                 <div className="flex gap-3">
                     <Button
@@ -402,7 +385,6 @@ export function OnboardingQuestions({ onComplete }: { onComplete: () => void }) 
                     <Button
                         onClick={handleNext}
                         className="flex-1 h-12 bg-blue-600 hover:bg-blue-700 text-white text-lg rounded-full"
-                    // disable logic could be added here if we want strict blocking
                     >
                         {step === totalSteps - 1 ? 'Finish' : 'Continue'}
                     </Button>

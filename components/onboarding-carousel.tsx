@@ -88,7 +88,6 @@ export function OnboardingCarousel({ onComplete }: { onComplete: () => void }) {
   return (
     <div className="h-screen w-full bg-white flex flex-col relative overflow-hidden">
 
-      {/* skip button */}
       <div className="absolute top-6 right-6 z-20">
         <button
           onClick={handleSkip}
@@ -98,7 +97,6 @@ export function OnboardingCarousel({ onComplete }: { onComplete: () => void }) {
         </button>
       </div>
 
-      {/* image section (top 60%) */}
       <div className="h-[60%] relative bg-gradient-to-br from-blue-50 to-indigo-50 overflow-hidden">
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
@@ -126,14 +124,11 @@ export function OnboardingCarousel({ onComplete }: { onComplete: () => void }) {
           </motion.div>
         </AnimatePresence>
 
-        {/* gradient overlay for smooth transition to content */}
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent z-10" />
       </div>
 
-      {/* content section (bottom 40%) */}
       <div className="h-[40%] bg-white rounded-t-[2rem] -mt-6 z-10 flex flex-col px-6 relative shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
 
-        {/* Text Content */}
         <div className="text-center pt-6 flex-1 flex flex-col justify-start">
           <AnimatePresence mode="wait">
             <motion.div
@@ -153,10 +148,8 @@ export function OnboardingCarousel({ onComplete }: { onComplete: () => void }) {
           </AnimatePresence>
         </div>
 
-        {/* Bottom Navigation Area */}
         <div className="pb-4 mt-auto flex flex-col gap-3">
 
-          {/* Progress Dots */}
           <div className="flex justify-center gap-2">
             {slides.map((_, index) => (
               <button
@@ -174,7 +167,6 @@ export function OnboardingCarousel({ onComplete }: { onComplete: () => void }) {
             ))}
           </div>
 
-          {/* Next Button - Full Width (No Back Button) */}
           <div className="flex w-full">
             <Button
               onClick={goToNext}
